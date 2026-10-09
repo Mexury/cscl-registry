@@ -302,15 +302,18 @@ export async function applyVersions(root, { log = console.log } = {}) {
   if (errors.length) throw invalid(errors)
   const raw = JSON.parse(await readFile(source.manifest, "utf8"))
   const date = new Date().toISOString().slice(0, 10)
+  let changed = false
   for (const entry of plan) {
     const item = raw.items.find((/** @type {Item} */ i) => i.name === entry.name)
     // Already applied by an earlier run (or a first release): nothing new to record.
     if (item.meta.version === entry.to && !entry.changeset) continue
+    changed ||= item.meta.version !== entry.to
     item.meta.version = entry.to
     await addChangelog(source, entry.name, entry.to, entry.reasons, `${date}${entry.level ? `, ${entry.level}` : ""}`)
     log(`${entry.name}: ${entry.from ?? "new"} → ${entry.to}${entry.level ? ` (${entry.level})` : ""}`)
   }
-  await writeFile(source.manifest, JSON.stringify(raw, null, 2) + "\n")
+  // Rewriting an unchanged manifest would only reformat it, and CI would commit that.
+  if (changed) await writeFile(source.manifest, JSON.stringify(raw, null, 2) + "\n")
   await deleteChangesets(root, changesets)
   if (!plan.some((e) => e.from)) log("nothing to version")
   return plan

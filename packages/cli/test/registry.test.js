@@ -1,7 +1,7 @@
 // @ts-check
 import assert from "node:assert/strict"
 import { existsSync } from "node:fs"
-import { readdir, readFile } from "node:fs/promises"
+import { readdir, readFile, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { test } from "node:test"
 
@@ -60,6 +60,15 @@ test("a changeset bumps the item and every dependent gets a patch for its new pi
   // Versioning again changes nothing.
   await ws.version()
   assert.equal(await ws.versionOf("button"), "1.0.1")
+})
+
+test("version leaves registry.json alone when there is nothing to version", async () => {
+  const ws = await workspace()
+  const file = path.join(ws.root, "registry.json")
+  const compact = JSON.stringify(JSON.parse(await readFile(file, "utf8")))
+  await writeFile(file, compact)
+  await ws.version()
+  assert.equal(await readFile(file, "utf8"), compact, "no formatting-only rewrite for CI to commit")
 })
 
 test("a dependency major makes dependents minor, or major when they re-export it", async () => {
