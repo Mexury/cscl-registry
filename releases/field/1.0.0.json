@@ -1,0 +1,30 @@
+{
+  "name": "field",
+  "type": "registry:ui",
+  "title": "Field",
+  "description": "Label, control, description and error for one form field, plus fieldsets.",
+  "dependencies": [
+    "@base-ui/react@1.8.0",
+    "class-variance-authority@0.7.1"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/field.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Field as FieldPrimitive } from \"@base-ui/react/field\"\nimport { Fieldset as FieldsetPrimitive } from \"@base-ui/react/fieldset\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/registry/default/lib/utils\"\n\n/** Groups related fields under a legend. */\nfunction FieldSet({ className, ...props }: FieldsetPrimitive.Root.Props) {\n  return (\n    <FieldsetPrimitive.Root\n      data-slot=\"field-set\"\n      className={cn(\"flex flex-col gap-6\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldLegend({ className, ...props }: FieldsetPrimitive.Legend.Props) {\n  return (\n    <FieldsetPrimitive.Legend\n      data-slot=\"field-legend\"\n      className={cn(\"mb-3 text-base font-medium\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Stacks fields with consistent spacing. */\nfunction FieldGroup({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"field-group\"\n      className={cn(\"group/field-group flex w-full flex-col gap-6\", className)}\n      {...props}\n    />\n  )\n}\n\nconst fieldVariants = cva(\"group/field flex w-full gap-2\", {\n  variants: {\n    orientation: {\n      vertical: \"flex-col *:w-full\",\n      horizontal: \"flex-row items-center *:data-[slot=field-label]:flex-auto\",\n    },\n  },\n  defaultVariants: {\n    orientation: \"vertical\",\n  },\n})\n\n/**\n * One form field: a label, a control (`Input`, or anything wrapped in `FieldControl`), a\n * description and errors. `name` ties it to `Form` errors; `validate` adds custom checks.\n */\nfunction Field({\n  className,\n  orientation = \"vertical\",\n  ...props\n}: FieldPrimitive.Root.Props & VariantProps<typeof fieldVariants>) {\n  return (\n    <FieldPrimitive.Root\n      data-slot=\"field\"\n      data-orientation={orientation}\n      className={cn(fieldVariants({ orientation }), className)}\n      {...props}\n    />\n  )\n}\n\n/** Holds a label and description next to a control in a horizontal field. */\nfunction FieldContent({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"field-content\"\n      className={cn(\"flex flex-1 flex-col gap-1.5 leading-snug\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {\n  return (\n    <FieldPrimitive.Label\n      data-slot=\"field-label\"\n      className={cn(\n        \"flex w-fit items-center gap-2 text-sm leading-snug font-medium select-none group-data-disabled/field:opacity-50 group-data-invalid/field:text-destructive\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\n/** Wraps a native control that is not an `Input` so it joins the field's validation. */\nfunction FieldControl({ className, ...props }: FieldPrimitive.Control.Props) {\n  return <FieldPrimitive.Control data-slot=\"field-control\" className={className} {...props} />\n}\n\nfunction FieldDescription({ className, ...props }: FieldPrimitive.Description.Props) {\n  return (\n    <FieldPrimitive.Description\n      data-slot=\"field-description\"\n      className={cn(\n        \"text-sm leading-normal font-normal text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\n/**\n * Shows the field's validation message. Without `match` it shows whenever the field is invalid,\n * including errors passed to `Form` for the field's `name`; `match=\"valueMissing\"` (or another\n * ValidityState key) shows it only for that problem.\n */\nfunction FieldError({ className, ...props }: FieldPrimitive.Error.Props) {\n  return (\n    <FieldPrimitive.Error\n      data-slot=\"field-error\"\n      className={cn(\"text-sm font-normal text-destructive\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldSeparator({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      role=\"separator\"\n      data-slot=\"field-separator\"\n      className={cn(\"my-2 h-px w-full bg-border\", className)}\n      {...props}\n    />\n  )\n}\n\nexport {\n  Field,\n  FieldContent,\n  FieldControl,\n  FieldDescription,\n  FieldError,\n  FieldGroup,\n  FieldLabel,\n  FieldLegend,\n  FieldSeparator,\n  FieldSet,\n}\n"
+    }
+  ],
+  "meta": {
+    "version": "1.0.0",
+    "pins": {
+      "utils": "1.0.0"
+    },
+    "requires": {
+      "utils": "^1.0.0"
+    },
+    "releasedAt": "2026-10-09T12:00:35.572Z"
+  }
+}

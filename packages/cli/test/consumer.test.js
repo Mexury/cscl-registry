@@ -22,7 +22,7 @@ test("add writes the item and its registry dependencies with imports rewritten, 
   assert.match(button, /from "@\/lib\/utils"/)
   assert.doesNotMatch(button, /@\/registry/)
   assert.ok(existsSync(path.join(ws.app, APP_UTILS)))
-  assert.match(logs.join("\n"), /npm packages to install: npm install --save-exact clsx@2\.1\.1 tailwind-merge@3\.3\.1 @radix-ui\/react-slot@1\.2\.3 class-variance-authority@0\.7\.1/)
+  assert.match(logs.join("\n"), /npm packages to install: npm install --save-exact clsx@2\.1\.1 tailwind-merge@3\.3\.1 @base-ui\/react@1\.8\.0 class-variance-authority@0\.7\.1/)
 
   const lock = await readLock(ws.app)
   assert.equal(lock.items["@cscl/button"].version, "1.0.0")

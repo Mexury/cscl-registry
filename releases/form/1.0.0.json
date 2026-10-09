@@ -1,0 +1,32 @@
+{
+  "name": "form",
+  "type": "registry:ui",
+  "title": "Form",
+  "description": "A form that validates its fields and shows server errors.",
+  "dependencies": [
+    "@base-ui/react@1.8.0"
+  ],
+  "registryDependencies": [
+    "utils",
+    "field"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/form.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport { Form as FormPrimitive } from \"@base-ui/react/form\"\n\nimport { cn } from \"@/registry/default/lib/utils\"\n\n/**\n * A form that validates its `Field`s. Pass server errors as `errors={{ email: \"Taken\" }}` (keys\n * are field names) and read typed values in `onFormSubmit`.\n */\nfunction Form<Values extends Record<string, any> = Record<string, any>>({\n  className,\n  ...props\n}: FormPrimitive.Props<Values>) {\n  return (\n    <FormPrimitive<Values>\n      data-slot=\"form\"\n      className={cn(\"flex w-full flex-col gap-6\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Form }\n"
+    }
+  ],
+  "meta": {
+    "version": "1.0.0",
+    "pins": {
+      "utils": "1.0.0",
+      "field": "1.0.0"
+    },
+    "requires": {
+      "utils": "^1.0.0",
+      "field": "^1.0.0"
+    },
+    "releasedAt": "2026-10-09T12:00:35.576Z"
+  }
+}

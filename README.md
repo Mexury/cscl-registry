@@ -7,6 +7,36 @@ dependency changes, and apps can upgrade or downgrade items without losing their
 Plain `npx shadcn add` keeps working. The `cscl-reg` CLI in [`packages/cli`](packages/cli) adds what
 shadcn does not have: versions, a lockfile, `outdated`, `update`, `diff` and a resolver.
 
+## Components
+
+Built on [Base UI](https://base-ui.com) (`@base-ui/react`), styled like shadcn's new-york theme.
+
+| Item | What it is |
+| --- | --- |
+| `button` | Variants and sizes. Render it as another element with `render={<a href="/docs" />} nativeButton={false}` |
+| `input` | A text input; inside a `Field` it gets the field's label, validation and errors |
+| `field` | `Field`, `FieldLabel`, `FieldDescription`, `FieldError`, `FieldControl`, plus `FieldSet`, `FieldLegend` and `FieldGroup` |
+| `form` | Validates its fields on submit; server errors go in `errors={{ email: "Taken" }}` (installs `field`) |
+| `dialog` | Modal with title, description and a close button (installs `button`) |
+| `dropdown-menu` | Items, labels, checkbox and radio items, submenus, shortcuts |
+| `accordion` | One open item at a time, or several with `multiple` |
+| `card` | Header, title and content |
+| `utils` | `cn()` |
+
+The app needs Tailwind v4 with shadcn's theme variables and `tw-animate-css` for the open and close
+animations; `npx shadcn@latest init` sets up all three. Items with icons install `lucide-react`.
+
+```tsx
+<Form errors={errors} onFormSubmit={(values) => save(values)}>
+  <Field name="email">
+    <FieldLabel>Email</FieldLabel>
+    <Input type="email" required />
+    <FieldError />
+  </Field>
+  <Button type="submit">Save</Button>
+</Form>
+```
+
 ## How it works
 
 ```

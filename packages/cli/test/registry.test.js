@@ -27,7 +27,7 @@ test("served releases are shadcn items with dependencies pinned to versioned URL
   const versions = await json(ws.out, "button/versions.json")
   assert.equal(versions.latest, "1.0.0")
   const index = await json(ws.out, "registry.json")
-  assert.deepEqual(index.items.map((/** @type {any} */ i) => i.name), ["button", "card", "utils"])
+  assert.deepEqual(index.items.map((/** @type {any} */ i) => i.name), ["accordion", "button", "card", "dialog", "dropdown-menu", "field", "form", "input", "utils"])
   assert.equal(index.items[0].files[0].content, undefined)
 })
 
@@ -81,13 +81,14 @@ test("a dependency major makes dependents minor, or major when they re-export it
 test("npm version changes bump on their own: a new major is major, or minor when internal", async () => {
   const ws = await workspace()
   await ws.manifest((r) => {
-    r.items[1].dependencies = ["@radix-ui/react-slot@1.2.3", "class-variance-authority@1.0.0"]
+    r.items[1].dependencies = ["@base-ui/react@1.8.0", "class-variance-authority@1.0.0"]
   })
   let { plan: p, errors } = await plan(ws)
   assert.deepEqual(errors, [])
   assert.deepEqual(
     p.filter((e) => e.from).map((e) => [e.name, e.to]),
-    [["button", "2.0.0"]]
+    [["button", "2.0.0"], ["dialog", "1.1.0"]],
+    "dialog uses button without re-exporting it, so it gets a minor"
   )
   assert.match(p.find((e) => e.name === "button")?.reasons.join() ?? "", /class-variance-authority 0\.7\.1 → 1\.0\.0/)
 
@@ -98,7 +99,7 @@ test("npm version changes bump on their own: a new major is major, or minor when
   assert.equal(p.find((e) => e.name === "button")?.to, "1.1.0")
 
   await ws.manifest((r) => {
-    r.items[1].dependencies = ["@radix-ui/react-slot@1.2.4", "class-variance-authority@0.7.1"]
+    r.items[1].dependencies = ["@base-ui/react@1.8.1", "class-variance-authority@0.7.1"]
     delete r.items[1].meta.internal
   })
   ;({ plan: p } = await plan(ws))
@@ -117,8 +118,8 @@ test("a released version can never change", async () => {
   })
   await ws.edit(UTILS, (s) => s + "\n// a\n")
   await ws.manifest((r) => {
-    r.items[1].meta.version = "1.0.1"
-    r.items[2].meta.version = "1.0.1"
+    // Everything else builds on utils, so its patch gives each of them a patch.
+    for (const item of r.items.slice(1)) item.meta.version = "1.0.1"
   })
   await ws.build()
   await ws.edit(UTILS, (s) => s + "\n// b\n")
