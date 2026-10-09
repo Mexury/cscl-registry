@@ -1,0 +1,21 @@
+{
+  "name": "utils",
+  "type": "registry:lib",
+  "title": "Utils",
+  "description": "The cn() class name helper.",
+  "dependencies": [
+    "clsx@2.1.1",
+    "tailwind-merge@3.3.1"
+  ],
+  "files": [
+    {
+      "path": "registry/default/lib/utils.ts",
+      "type": "registry:lib",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    }
+  ],
+  "meta": {
+    "version": "1.0.0",
+    "releasedAt": "2026-10-09T11:28:08.320Z"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "card",
+  "type": "registry:ui",
+  "title": "Card",
+  "description": "A card with header, title and content.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/card.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/registry/default/lib/utils\"\n\nfunction Card({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card\"\n      className={cn(\"rounded-xl border bg-card text-card-foreground shadow-sm\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction CardHeader({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"card-header\" className={cn(\"flex flex-col gap-1.5 p-6\", className)} {...props} />\n}\n\nfunction CardTitle({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"card-title\" className={cn(\"font-semibold leading-none\", className)} {...props} />\n}\n\nfunction CardContent({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"card-content\" className={cn(\"p-6 pt-0\", className)} {...props} />\n}\n\nexport { Card, CardHeader, CardTitle, CardContent }\n"
+    }
+  ],
+  "meta": {
+    "version": "1.0.0",
+    "pins": {
+      "utils": "1.0.0"
+    },
+    "requires": {
+      "utils": "^1.0.0"
+    },
+    "releasedAt": "2026-10-09T11:28:08.336Z"
+  }
+}

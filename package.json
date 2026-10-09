@@ -1,0 +1,15 @@
+{
+  "name": "cscl-registry",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"packages/cli/test/*.test.js\"",
+    "changeset": "node packages/cli/src/index.js changeset",
+    "check": "node packages/cli/src/index.js check",
+    "bump": "node packages/cli/src/index.js version",
+    "build": "node packages/cli/src/index.js build"
+  }
+}

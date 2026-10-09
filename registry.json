@@ -1,0 +1,95 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "cscl",
+  "homepage": "https://github.com/Mexury/cscl-registry",
+  "items": [
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "The cn() class name helper.",
+      "dependencies": ["clsx@2.1.1", "tailwind-merge@3.3.1"],
+      "files": [{ "path": "registry/default/lib/utils.ts", "type": "registry:lib" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A button with variants and sizes, built on Base UI.",
+      "dependencies": ["@base-ui/react@1.8.0", "class-variance-authority@0.7.1"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/default/ui/button.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A card with header, title and content.",
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/default/ui/card.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A text input that joins a Field's label, validation and errors.",
+      "dependencies": ["@base-ui/react@1.8.0"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/default/ui/input.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Label, control, description and error for one form field, plus fieldsets.",
+      "dependencies": ["@base-ui/react@1.8.0", "class-variance-authority@0.7.1"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/default/ui/field.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "A form that validates its fields and shows server errors.",
+      "dependencies": ["@base-ui/react@1.8.0"],
+      "registryDependencies": ["utils", "field"],
+      "files": [{ "path": "registry/default/ui/form.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal dialog with a title, description and close button.",
+      "dependencies": ["@base-ui/react@1.8.0", "lucide-react@1.48.0"],
+      "registryDependencies": ["utils", "button"],
+      "files": [{ "path": "registry/default/ui/dialog.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "A menu with items, checkboxes, radio groups and submenus.",
+      "dependencies": ["@base-ui/react@1.8.0", "lucide-react@1.48.0"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/default/ui/dropdown-menu.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Collapsible sections, one or several open at a time.",
+      "dependencies": ["@base-ui/react@1.8.0", "lucide-react@1.48.0"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/default/ui/accordion.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    }
+  ]
+}
