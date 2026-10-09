@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "cscl",
+  "homepage": "https://github.com/Mexury/cscl-registry",
+  "items": [
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "The cn() class name helper.",
+      "dependencies": ["clsx@2.1.1", "tailwind-merge@3.3.1"],
+      "files": [{ "path": "registry/default/lib/utils.ts", "type": "registry:lib" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A button with variants and sizes.",
+      "dependencies": ["@radix-ui/react-slot@1.2.3", "class-variance-authority@0.7.1"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/default/ui/button.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A card with header, title and content.",
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/default/ui/card.tsx", "type": "registry:ui" }],
+      "meta": { "version": "1.0.0" }
+    }
+  ]
+}

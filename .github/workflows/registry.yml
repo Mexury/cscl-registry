@@ -1,0 +1,64 @@
+name: registry
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: registry-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      # Fails when an item changed without a changeset; prints the versions this PR will release.
+      - run: node packages/cli/src/index.js check
+
+  release:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      - name: Apply changesets and dependency bumps
+        run: node packages/cli/src/index.js version
+      - name: Snapshot new versions and build the registry
+        run: node packages/cli/src/index.js build
+      - name: Commit versions and release snapshots
+        run: |
+          if [ -n "$(git status --porcelain registry.json releases .changeset)" ]; then
+            released=$(git status --porcelain -uall releases | grep -oE 'releases/[a-z0-9-]+/[0-9]+\.[0-9]+\.[0-9]+\.json' | sed -E 's#releases/([^/]+)/(.+)\.json#\1@\2#' | paste -sd ' ' -)
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add registry.json releases .changeset
+            git commit -m "Release ${released:-registry}"
+            git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - id: deploy
+        uses: actions/deploy-pages@v4
